@@ -14,6 +14,7 @@
     "dev": "./scripts/dev.sh",
     "voice-server": "node -r dotenv/config dist/voice-server.js",
     "voice-dev": "ts-node -r dotenv/config src/voice-server.ts",
+    "update-deps": "./scripts/update-deps.sh",
     "test": "jest --passWithNoTests",
     "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-staged": "lint-staged",

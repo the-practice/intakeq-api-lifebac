@@ -11,6 +11,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "npx tsc",
+    "build:production": "npx tsc -p tsconfig.build.json",
     "build:cross-platform": "node scripts/build.js",
     "build:rollup": "./scripts/build.sh",
     "dev": "./scripts/dev.sh",

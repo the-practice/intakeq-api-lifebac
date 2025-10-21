@@ -12,12 +12,13 @@ COPY package.json ./
 RUN echo "registry=https://registry.npmjs.org/" > .npmrc
 RUN npm install --legacy-peer-deps --verbose
 
-# Copy source code and TypeScript config
+# Copy source code and TypeScript configs
 COPY src/ ./src/
 COPY tsconfig.json ./
+COPY tsconfig.build.json ./
 
-# Build the application using TypeScript directly
-RUN npx tsc
+# Build the application using build-specific TypeScript config
+RUN npx tsc -p tsconfig.build.json
 
 # Copy other necessary files for runtime
 COPY .env.example ./

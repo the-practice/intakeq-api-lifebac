@@ -7,7 +7,9 @@ import {
 } from './interfaces';
 import { 
   Client, 
-  ClientWithProfile, 
+  ClientWithProfile
+} from '../client/interfaces';
+import { 
   Appointment, 
   CreateAppointmentRequest,
   AppointmentStatus 
@@ -202,7 +204,7 @@ export class VoiceAssistantApi {
         ClientId: client.ClientId,
         PractitionerId: practitioner.Id,
         ServiceId: service.Id,
-        LocationId: this.config.defaultLocationId || settings.Locations[0]?.Id || 1,
+        LocationId: this.config.defaultLocationId || parseInt(settings.Locations[0]?.Id || '1') || 1,
         UtcDateTime: Math.floor(appointmentDate.getTime() / 1000),
         Status: 'WaitingConfirmation',
         SendClientEmailNotification: true,

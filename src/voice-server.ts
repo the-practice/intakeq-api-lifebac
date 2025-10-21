@@ -12,8 +12,13 @@ import dotenv from 'dotenv';
 import { createBlandServer } from './voice/bland-webhook-server';
 import { VoiceConfig } from './voice/interfaces';
 
-// Load environment variables
-dotenv.config();
+// Load environment variables (only if .env file exists)
+try {
+  dotenv.config();
+} catch (error) {
+  // Ignore if dotenv fails - environment variables might be set by platform
+  console.log('📝 Note: .env file not found - using platform environment variables');
+}
 
 // Validate required environment variables
 function validateEnvironment(): void {
@@ -22,7 +27,18 @@ function validateEnvironment(): void {
   
   if (missing.length > 0) {
     console.error('❌ Missing required environment variables:', missing.join(', '));
-    console.error('Please copy .env.example to .env and configure your settings.');
+    console.error('');
+    console.error('🔧 For Railway deployment:');
+    console.error('   1. Go to your Railway project dashboard');
+    console.error('   2. Click on "Variables" tab');
+    console.error('   3. Add: INTAKEQ_API_KEY = your-api-key');
+    console.error('');
+    console.error('🔧 For local development:');
+    console.error('   1. Copy .env.example to .env');
+    console.error('   2. Edit .env and add your INTAKEQ_API_KEY');
+    console.error('');
+    console.error('🔧 For other platforms:');
+    console.error('   Set environment variable: INTAKEQ_API_KEY');
     process.exit(1);
   }
 }

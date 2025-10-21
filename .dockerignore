@@ -10,3 +10,6 @@ README.md
 Dockerfile
 .dockerignore
 .npmrc.publish
+# Exclude lock files to avoid conflicts during build
+yarn.lock
+package-lock.json

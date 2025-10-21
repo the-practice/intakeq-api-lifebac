@@ -6,3 +6,8 @@ node_modules
 dist
 
 test.ts
+
+# Environment files
+.env
+.env.local
+.env.production

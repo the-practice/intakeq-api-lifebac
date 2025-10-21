@@ -33,8 +33,15 @@ export class IntakeQApi {
   }
 }
 
+// Export all interface types
 export * from './appointment/interfaces';
 export * from './client/interfaces';
 export * from './invoice/interfaces';
 export * from './notes/interfaces';
 export * from './questionnaire/interfaces';
+
+// Export voice assistant components
+export * from './voice/interfaces';
+export { VoiceAssistantApi } from './voice/voice-assistant-api';
+export { CommandProcessor } from './voice/command-processor';
+export { BlandWebhookServer, createBlandServer } from './voice/bland-webhook-server';

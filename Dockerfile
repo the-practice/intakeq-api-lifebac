@@ -13,7 +13,7 @@ WORKDIR /app
 # Copy package.json and install dependencies
 COPY package.json ./
 RUN echo "registry=https://registry.npmjs.org/" > .npmrc
-RUN npm install --verbose
+RUN npm install --legacy-peer-deps --verbose
 
 # Copy source code
 COPY . .

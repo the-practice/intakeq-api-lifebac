@@ -15,17 +15,23 @@ echo "🧹 Cleaning node_modules..."
 rm -rf node_modules
 
 # Install with npm to generate new package-lock.json
-echo "📦 Installing with npm..."
-npm install
+echo "📦 Installing with npm (using legacy peer deps)..."
+npm install --legacy-peer-deps
 
-# Also generate yarn.lock for compatibility
-echo "🧶 Generating yarn.lock..."
-yarn install
+# Also generate yarn.lock for compatibility if yarn is available
+if command -v yarn &> /dev/null; then
+    echo "🧶 Generating yarn.lock..."
+    yarn install
+else
+    echo "⚠️  Yarn not found, skipping yarn.lock generation"
+fi
 
 echo "✅ Dependencies updated successfully!"
 echo ""
 echo "📋 Lock files regenerated:"
 echo "   • package-lock.json"
-echo "   • yarn.lock"
+if [ -f yarn.lock ]; then
+    echo "   • yarn.lock"
+fi
 echo ""
 echo "🚀 You can now build and deploy without lock file conflicts."

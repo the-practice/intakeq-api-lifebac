@@ -1,0 +1,48 @@
+# Simple production-focused Dockerfile
+FROM node:18-alpine
+
+# Install system dependencies
+RUN apk add --no-cache curl
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and create minimal .npmrc
+COPY package.json ./
+RUN echo "registry=https://registry.npmjs.org/" > .npmrc
+
+# Install only production dependencies to avoid conflicts
+COPY package.json package-prod.json
+RUN node -e "
+const pkg = require('./package.json');
+pkg.devDependencies = {};
+require('fs').writeFileSync('package-prod.json', JSON.stringify(pkg, null, 2));
+"
+
+# Install production dependencies first
+RUN npm install --production --legacy-peer-deps
+
+# Now install dev dependencies needed for build
+RUN npm install typescript@^4.9.5 ts-node@^10.9.1 --no-save
+
+# Copy source code
+COPY . .
+
+# Build the application using npx to avoid global installs
+RUN npx tsc
+
+# Remove unnecessary files for production
+RUN rm -rf src/ *.ts tsconfig.json
+
+# Expose port
+EXPOSE 3000
+
+# Set environment to production
+ENV NODE_ENV=production
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+# Start the application
+CMD ["node", "dist/voice-server.js"]

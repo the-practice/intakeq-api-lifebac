@@ -248,6 +248,14 @@ npm run voice-build
 
 ## Deployment
 
+### Important: NPM Token Issue Fix
+
+If you encounter a Yarn installation error about `${NPM_TOKEN}`, this is because the original `.npmrc` file contained a publish token reference. This has been fixed:
+
+- `.npmrc` now contains only the registry URL (no authentication)
+- `.npmrc.publish` contains the publish configuration (used only when publishing)
+- Publishing is handled via `npm run publish:npm` script
+
 ### Environment Variables
 
 Required:
@@ -261,17 +269,44 @@ Optional:
 - `BUSINESS_HOURS_END`: End time (e.g., "17:00")  
 - `BUSINESS_DAYS`: Days of week (e.g., "1,2,3,4,5")
 
+### Docker Deployment
+
+```bash
+# Build the Docker image
+docker build -t intakeq-voice .
+
+# Run the container
+docker run -p 3000:3000 \
+  -e INTAKEQ_API_KEY=your-api-key \
+  -e DEFAULT_PRACTITIONER_EMAIL=doctor@yourpractice.com \
+  intakeq-voice
+```
+
 ### Railway Deployment
 
 1. Connect your GitHub repository to Railway
 2. Set environment variables in Railway dashboard
-3. Deploy automatically on push to main branch
+3. Railway will automatically use the `railway.json` configuration
+4. Deploy automatically on push to main branch
 
 ### Vercel Deployment
 
 1. Install Vercel CLI: `npm i -g vercel`
 2. Run: `vercel`
 3. Configure environment variables in Vercel dashboard
+
+### Manual Build and Deploy
+
+```bash
+# Install dependencies (no NPM_TOKEN needed)
+yarn install
+
+# Build the project
+npm run build
+
+# Start the server
+npm run voice-server
+```
 
 ## Support
 

@@ -7,9 +7,13 @@ dist
 .git
 .gitignore
 README.md
+DEPLOYMENT.md
 Dockerfile
+Dockerfile.simple
 .dockerignore
 .npmrc.publish
 # Exclude lock files to avoid conflicts during build
 yarn.lock
 package-lock.json
+# Exclude scripts directory to avoid shell script issues
+scripts/

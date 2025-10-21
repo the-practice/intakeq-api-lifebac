@@ -4,9 +4,6 @@ FROM node:18-alpine
 # Install system dependencies
 RUN apk add --no-cache curl
 
-# Install TypeScript globally for building
-RUN npm install -g typescript ts-node
-
 # Set working directory
 WORKDIR /app
 
@@ -15,11 +12,15 @@ COPY package.json ./
 RUN echo "registry=https://registry.npmjs.org/" > .npmrc
 RUN npm install --legacy-peer-deps --verbose
 
-# Copy source code
-COPY . .
+# Copy source code and TypeScript config
+COPY src/ ./src/
+COPY tsconfig.json ./
 
-# Build the application
-RUN npm run build
+# Build the application using TypeScript directly
+RUN npx tsc
+
+# Copy other necessary files for runtime
+COPY .env.example ./
 
 # Remove dev dependencies for production
 RUN npm prune --production

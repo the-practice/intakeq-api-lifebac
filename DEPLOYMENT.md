@@ -26,17 +26,36 @@ The Docker configuration has been updated to handle this automatically by:
    rm -f package-lock.json yarn.lock
    rm -rf node_modules
    
-   # Reinstall
-   npm install
+   # Reinstall with legacy peer deps
+   npm install --legacy-peer-deps
    ```
 
 3. **Alternative - use npm only:**
    ```bash
    # Instead of yarn, use npm for everything
-   npm install
+   npm install --legacy-peer-deps
    npm run build
    npm run voice-dev
    ```
+
+## Build Script Issues
+
+If you encounter `sh: ./scripts/build.sh: not found`, this is because:
+- The shell scripts aren't copied to Docker containers
+- The build process has been simplified to use TypeScript directly
+
+### Build Commands:
+
+```bash
+# Simple TypeScript build (recommended)
+npm run build
+
+# Cross-platform build script
+npm run build:cross-platform
+
+# Legacy Rollup build (if needed)
+npm run build:rollup
+```
 
 ## Build Commands by Platform:
 
@@ -49,18 +68,18 @@ docker run -p 3000:3000 -e INTAKEQ_API_KEY=your-key intakeq-voice
 ### Railway
 ```bash
 # Automatically uses railway.json configuration
-# Uses: npm install && npm run build
+# Uses: npm install --legacy-peer-deps && npx tsc
 ```
 
 ### Vercel
 ```bash
-# Build command: npm install && npm run build
+# Build command: npm install --legacy-peer-deps && npx tsc
 # Start command: npm run voice-server
 ```
 
 ### Manual/VPS
 ```bash
-npm install
+npm install --legacy-peer-deps
 npm run build
 npm run voice-server
 ```

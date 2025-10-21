@@ -10,7 +10,9 @@
   ],
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "./scripts/build.sh",
+    "build": "npx tsc",
+    "build:cross-platform": "node scripts/build.js",
+    "build:rollup": "./scripts/build.sh",
     "dev": "./scripts/dev.sh",
     "voice-server": "node -r dotenv/config dist/voice-server.js",
     "voice-dev": "ts-node -r dotenv/config src/voice-server.ts",
